@@ -1,0 +1,24 @@
+html, body{
+	height: 100%;
+}
+body {
+	margin: 0;
+}
+button{
+	font-size: 1em;
+	padding: 0.5em;
+}
+#main{
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center; 
+	justify-content: space-around;
+	height: 88%;
+}
+#toolbar{
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center; 
+	justify-content: space-around;
+	height: 12%;
+}
