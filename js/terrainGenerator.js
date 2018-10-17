@@ -170,6 +170,10 @@ document.addEventListener('keydown', function(e) {
 
 
 function createTerrain(){
+	/*
+	Following the tutorial - Learning 3D Graphics With Three.js | Procedural Geometry
+	https://steemit.com/utopian-io/@clayjohn/learning-3d-graphics-with-three-js-or-procedural-geometry
+	*/
 	let scene = new THREE.Scene();
 	let camera = new THREE.PerspectiveCamera( 75, w*s/h*s, 0.1, 1000 );
 
