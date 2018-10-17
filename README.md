@@ -4,6 +4,8 @@ A 3D terrain generator from height map using Three.js
 
 !["Terrain Generator"](screenshot.png)
 
+A live version is hosted [here](https://victorribeiro.com/terrainGenerator/)
+
 ## How to use
 
 * New - generate e new height map
