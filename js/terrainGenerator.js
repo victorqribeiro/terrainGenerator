@@ -218,7 +218,7 @@ function createTerrain(){
 
 			camera.position.x = Math.cos(a) * 3;
 			camera.position.z = Math.sin(a) * 3;
-			camera.lookAt(new THREE.Vector3(0,0,0) );
+			camera.lookAt( 0, 0, 0 );
 			a += 0.005;
 	};
 
