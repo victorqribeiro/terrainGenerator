@@ -1,3 +1,6 @@
+/*jshint esversion: 6, strict: implied */
+/*globals THREE */
+
 let s = 1;
 let w = 256;
 let h = 256;
@@ -38,7 +41,8 @@ function createToolBar(){
 	};
 	let toolbar = document.createElement('div');
 	toolbar.id = "toolbar";
-	for(let key in tools){
+	for (let key in tools) {
+		if (!tools.hasOwnProperty(key)) { continue; }
 		let btn = document.createElement('button');
 		btn.innerText = key;
 		btn.onclick = tools[key];
@@ -76,22 +80,22 @@ function blur() {
   for (let i = 0; i < h; i++) {
     for (let j = 0; j < w; j++) {
       let ln, rn, tn, bn;
-      if (i == 0) {
+      if (i === 0) {
         tn = map[h - 1][j];
       } else {
         tn = map[i - 1][j];
       }
-      if (j == 0) {
+      if (j === 0) {
         ln = map[i][w - 1];
       } else {
         ln = map[i][j - 1];
       }
-      if (i == h - 1) {
+      if (i === h - 1) {
         bn = map[0][j];
       } else {
         bn = map[i + 1][j];
       }
-      if (j == w - 1) {
+      if (j === w - 1) {
         rn = map[i][0];
       } else {
         rn = map[i][j + 1];
@@ -128,6 +132,7 @@ function invert() {
   }
 }
 
+// noinspection JSUnusedGlobalSymbols
 function diagonal() {
   for (let i = 0; i < h; i++) {
     for (let j = 0; j < w; j++) {
@@ -137,11 +142,7 @@ function diagonal() {
 }
 
 function toggle() {
-  if (colorful) {
-    colorful = false;
-  } else {
-    colorful = true;
-  }
+  colorful = !colorful;
 }
 
 document.addEventListener('keydown', function(e) {
@@ -178,11 +179,11 @@ function createTerrain(){
 	let camera = new THREE.PerspectiveCamera( 75, w*s/h*s, 0.1, 1000 );
 
 	let t = document.getElementById('terrain');
-	if(t){
+	if (t) {
 		t.remove();
 		//return;
 	}
-	
+
 	let renderer = new THREE.WebGLRenderer();
 	renderer.domElement.id = 'terrain';
 	renderer.setSize( w*s, h*s );
@@ -199,30 +200,30 @@ function createTerrain(){
 	env.position.y = 5;
 	scene.add( env );
 
-	let terrain_geometry = makeTile(0.1, 40);
+	let terrain_geometry = makeTile(0.1);
 	let terrain_material = new THREE.MeshLambertMaterial({color: new THREE.Color(0.9, 0.55, 0.4)});
 	let terrain = new THREE.Mesh(terrain_geometry, terrain_material);
 	terrain.position.x = -10;
 	terrain.position.z = -10;
 	terrain.updateMatrixWorld(true);
 	scene.add(terrain);
-	
+
 	camera.position.y = 2;
-	
+
 	let a = 0;
 
 	let animate = function() {
 			requestAnimationFrame(animate);
 			renderer.render(scene, camera);
-			
+
 			camera.position.x = Math.cos(a) * 3;
 			camera.position.z = Math.sin(a) * 3;
 			camera.lookAt(new THREE.Vector3(0,0,0) );
 			a += 0.005;
 	};
 
-	function makeTile(size, res) {
-		geometry = new THREE.Geometry();
+	function makeTile(size) {
+		let geometry = new THREE.Geometry();
 		for (let i = 0; i < h; i++) {
 			for (let j = 0; j < w; j++) {
 				let z = j * size + 1 * size;
@@ -237,7 +238,7 @@ function createTerrain(){
 		geometry.normalsNeedUpdate = true;
 
 		return geometry;
-	};
+	}
 
 	function makeQuad(geometry, position, addFace, verts) {
 		geometry.vertices.push(position);
@@ -251,7 +252,7 @@ function createTerrain(){
 			geometry.faces.push(new THREE.Face3(index2, index3, index1));
 			geometry.faces.push(new THREE.Face3(index2, index4, index3));
 		}
-	};
+	}
 
 	animate();
 }
