@@ -223,7 +223,9 @@ function createTerrain(){
 	};
 
 	function makeTile(size) {
-		let geometry = new THREE.Geometry();
+		let geometry = new THREE.BufferGeometry();
+		geometry.vertices = [];
+		geometry.faces = [];
 		for (let i = 0; i < h; i++) {
 			for (let j = 0; j < w; j++) {
 				let z = j * size + 1 * size;
@@ -234,7 +236,8 @@ function createTerrain(){
 				makeQuad(geometry, position, addFace, w);
 			}
 		}
-		geometry.computeFaceNormals();
+		geometry.setFromPoints(geometry.faces);
+		geometry.computeVertexNormals();
 		geometry.normalsNeedUpdate = true;
 
 		return geometry;
@@ -249,8 +252,15 @@ function createTerrain(){
 			let index3 = index1 - verts;
 			let index4 = index1 - verts - 1;
 
-			geometry.faces.push(new THREE.Face3(index2, index3, index1));
-			geometry.faces.push(new THREE.Face3(index2, index4, index3));
+			// Triangle 1
+			geometry.faces.push(geometry.vertices[index2]);
+			geometry.faces.push(geometry.vertices[index3]);
+			geometry.faces.push(geometry.vertices[index1]);
+
+			// Triangle 2
+			geometry.faces.push(geometry.vertices[index2]);
+			geometry.faces.push(geometry.vertices[index4]);
+			geometry.faces.push(geometry.vertices[index3]);
 		}
 	}
 
